@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14131f">
+<title>Songs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#14131f; --ink:#f3eefb; --sub:#9d97b3; --line:#2a2840; --panel:#1d1b2e; --acc:#ffb4a2;
+  --font:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font)}
+body{padding:calc(env(safe-area-inset-top,0px) + 28px) 18px calc(env(safe-area-inset-bottom,0px) + 150px);max-width:880px;margin:0 auto}
+header{margin-bottom:26px}
+h1{font-size:clamp(34px,9vw,56px);font-weight:700;letter-spacing:.01em;line-height:1.1}
+header p{color:var(--sub);margin-top:8px;font-size:14px}
+.count{display:none}
+header p:empty{display:none}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 14px;margin-top:12px;list-style:none;padding:0}
+@media(min-width:620px){.grid{grid-template-columns:repeat(3,1fr);gap:28px 20px}}
+@media(min-width:860px){.grid{grid-template-columns:repeat(4,1fr)}}
+.card{background:none;border:0;color:inherit;font:inherit;text-align:left;width:100%;cursor:pointer;padding:0}
+.art{position:relative;aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.45);transition:transform .25s}
+.art::after{content:"";position:absolute;inset:38% ;border-radius:50%;background:var(--bg);box-shadow:0 0 0 5px rgba(0,0,0,.18)}
+.card:active .art{transform:scale(.97)}
+.card.on .art{animation:spin 9s linear infinite}
+.card.paused .art{animation-play-state:paused}
+@keyframes spin{to{transform:rotate(360deg)}}
+.t{margin-top:12px;font-weight:700;font-size:15px;line-height:1.35;overflow-wrap:anywhere}
+.n{color:var(--sub);font-size:12px;margin-top:3px}
+.card.on .t{color:var(--acc)}
+.card:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:8px}
+.empty{color:var(--sub);padding:40px 0;line-height:1.8;font-size:14px}
+#bar{position:fixed;left:0;right:0;bottom:0;background:rgba(29,27,46,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:12px 18px calc(env(safe-area-inset-bottom,0px) + 12px);transform:translateY(110%);transition:transform .35s}
+#bar.show{transform:none}
+.in{max-width:880px;margin:0 auto}
+.row{display:flex;align-items:center;gap:12px}
+#cur{flex:1;min-width:0;font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctl{display:flex;align-items:center;gap:4px}
+.ctl button{background:none;border:0;color:var(--ink);width:40px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.ctl button svg{width:22px;height:22px;fill:currentColor}
+#pp{background:var(--acc);color:#2a1620}
+#pp svg{width:24px;height:24px}
+#rep.on,#shf.on{color:var(--acc)}
+.shufAll{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:12px 20px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.shufAll svg{width:18px;height:18px;fill:currentColor}
+.shufAll.on{border-color:var(--acc);color:var(--acc)}
+.seek{display:flex;align-items:center;gap:10px;margin-top:6px;font-size:11px;color:var(--sub);font-variant-numeric:tabular-nums}
+input[type=range]{flex:1;height:28px;background:none;-webkit-appearance:none;appearance:none;--p:0%}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(to right,var(--acc) var(--p),var(--line) var(--p))}
+input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:var(--line)}
+input[type=range]::-moz-range-progress{height:4px;border-radius:4px;background:var(--acc)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ink);margin-top:-5px}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:var(--ink)}
+@media(prefers-reduced-motion:reduce){.card.on .art{animation:none}#bar{transition:none}}
+
+body::before{content:"";position:fixed;inset:-20% -20% auto -20%;height:60vh;background:radial-gradient(60% 60% at 30% 30%,rgba(255,180,162,.22),transparent 70%),radial-gradient(50% 50% at 80% 20%,rgba(140,120,255,.25),transparent 70%);pointer-events:none;z-index:-1}
+h1{background:linear-gradient(100deg,#fff 20%,#ffb4a2 70%,#c4b5ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+#hero{display:flex;align-items:center;gap:20px;width:100%;margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:18px;color:inherit;font:inherit;text-align:left;cursor:pointer}
+#hero .art{width:42%;max-width:220px;flex:none}
+#hero.on .art{animation:spin 9s linear infinite}
+#hero.paused .art{animation-play-state:paused}
+#hero .lb{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--acc);margin-bottom:8px}
+#hero .t{font-size:clamp(20px,5vw,28px);margin-top:0}
+#hero .n{font-size:13px}
+.grid{margin-top:26px}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">Songs</h1>
+  <p id="tagline"></p>
+  <div class="count" id="count"></div>
+  <button class="shufAll" id="shufAll"><svg viewBox="0 0 24 24"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>シャッフル再生</button>
+</header>
+<button id="hero" aria-label="再生・一時停止"></button>
+<ul class="grid" id="list"></ul>
+
+<div id="bar"><div class="in">
+  <div class="row">
+    <div id="cur"></div>
+    <div class="ctl">
+      <button id="shf" aria-label="シャッフル"><svg viewBox="0 0 24 24"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg></button>
+      <button id="rep" aria-label="リピート"><svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg></button>
+      <button id="prev" aria-label="前の曲"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+      <button id="pp" aria-label="再生"><svg viewBox="0 0 24 24" id="ppi"><path d="M8 5v14l11-7z"/></svg></button>
+      <button id="next" aria-label="次の曲"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+    </div>
+  </div>
+  <div class="seek"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1000" value="0" aria-label="再生位置"><span id="td">0:00</span></div>
+</div></div>
+<audio id="au" preload="metadata" playsinline></audio>
+
+<script>
+// ▼ 設定（曲名やメモを変えたいときだけここに書く。MP3を足すだけなら編集不要）
+const CONFIG = {
+  siteTitle: "Songs",
+  tagline: "",
+  // { file:"xxx.mp3", title:"曲名", note:"メモ", cover:"画像.png" } の形。file以外は省略可
+  tracks: [
+    { file: "猫の爪に刺されながら.mp3", cover: "猫の爪に刺されながら.png" }
+  ]
+};
+const DIR = "曲"; // MP3・ジャケット画像を入れるフォルダ名
+const $ = id => document.getElementById(id);
+const au = $("au"), list = $("list");
+let tracks = [], idx = -1, repeat = false, shuffle = false, queue = [], hist = [];
+
+const PLAY = '<path d="M8 5v14l11-7z"/>', PAUSE = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
+const fmt = s => isFinite(s) ? Math.floor(s/60) + ":" + String(Math.floor(s%60)).padStart(2,"0") : "0:00";
+
+function titleFrom(file){
+  return decodeURIComponent(file).replace(/\.mp3$/i,"").replace(/^\d{4}[-._]?\d{2}[-._]?\d{2}[_\-\s]*/,"").replace(/_/g," ").trim() || file;
+}
+function bgOf(t){ return t.cover ? `url('${t.cover.replace(/'/g,"%27")}') center/cover no-repeat` : art(t.file) }
+function hash(s){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h}
+function art(name){
+  const h = hash(name), a = h%360, b = (a + 40 + h%90)%360, c = (a + 200)%360, r = h%360;
+  return `conic-gradient(from ${r}deg, hsl(${a} 80% 70%), hsl(${b} 75% 62%), hsl(${c} 70% 55%), hsl(${a} 80% 70%))`;
+}
+
+async function getJSON(u){ try{ const r = await fetch(u,{cache:"no-cache"}); return r.ok ? await r.json() : null }catch(e){ return null } }
+
+const GH = { owner:"joindsendey-source", repo:"tenibisensou", branch:"main" };
+// github.io 上では相対パス、それ以外（ローカルなど）ではGitHubのraw URLから読み込む
+const BASE = location.hostname.endsWith(".github.io") ? "" : `https://raw.githubusercontent.com/${GH.owner}/${GH.repo}/${GH.branch}/`;
+const urlOf = name => `${BASE}${DIR}/${encodeURIComponent(name)}`;
+const nfc = x => x.normalize("NFC");
+
+async function listFromGitHub(){
+  const d = await getJSON(`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${encodeURIComponent(DIR)}`);
+  if(!Array.isArray(d)) return null;
+  const all = d.map(f => f.name), imgs = {};
+  all.filter(n => /\.(png|jpe?g|webp)$/i.test(n)).forEach(n => imgs[nfc(n.replace(/\.[^.]+$/,""))] = n);
+  return { files: all.filter(n => /\.mp3$/i.test(n)).sort().reverse(), imgs };
+}
+
+async function init(){
+  const cfg = CONFIG;
+  if(cfg.siteTitle){ $("title").textContent = cfg.siteTitle; document.title = cfg.siteTitle }
+  $("tagline").textContent = cfg.tagline || "";
+  const meta = {}; (cfg.tracks||[]).forEach(t => meta[nfc(t.file)] = t);
+  const gh = await listFromGitHub();
+  let files, imgs = {};
+  if(gh){ files = gh.files; imgs = gh.imgs } else files = (cfg.tracks||[]).map(t => t.file);
+  tracks = files.map(f => {
+    const m = meta[nfc(f)] || {}, base = f.replace(/\.mp3$/i,"");
+    const img = m.cover || imgs[nfc(base)] || "";
+    return { file:f, src:urlOf(f), title:m.title || titleFrom(f), note:m.note || "", cover: img ? urlOf(img) : "" };
+  });
+  render();
+}
+
+function render(){
+  heroIdx = -2; mark();
+  if(!tracks.length){ list.innerHTML = '<li class="empty">まだ曲がありません。<br>曲 フォルダに MP3 を追加すると、ここに並びます。</li>'; return }
+  list.innerHTML = "";
+  tracks.forEach((t,i) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<button class="card" data-i="${i}"><div class="art" style="background:${bgOf(t)}"></div><div class="t"></div><div class="n"></div></button>`;
+    li.querySelector(".t").textContent = t.title;
+    li.querySelector(".n").textContent = t.note;
+    list.appendChild(li);
+  });
+}
+list.addEventListener("click", e => {
+  const b = e.target.closest(".card"); if(!b) return;
+  const i = +b.dataset.i;
+  if(i === idx) return toggle();
+  queue = []; hist = [];
+  load(i, true);
+});
+
+function load(i, play){
+  idx = i; const t = tracks[i];
+  au.src = t.src; $("cur").textContent = t.title; $("bar").classList.add("show");
+  if(play) au.play().catch(()=>{});
+  mark();
+  if("mediaSession" in navigator){
+    navigator.mediaSession.metadata = new MediaMetadata({ title:t.title, artist:$("title").textContent, artwork: t.cover ? [{ src:t.cover }] : [] });
+  }
+}
+function toggle(){ au.paused ? au.play().catch(()=>{}) : au.pause() }
+function buildQueue(ex){
+  queue = tracks.map((_, i) => i).filter(i => i !== ex);
+  for(let i = queue.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [queue[i], queue[j]] = [queue[j], queue[i]] }
+}
+function step(d){
+  if(!tracks.length) return;
+  if(shuffle){
+    if(d < 0 && hist.length) return load(hist.pop(), true);
+    if(!queue.length) buildQueue(idx);
+    if(!queue.length) return load(idx, true);
+    if(idx >= 0) hist.push(idx);
+    return load(queue.shift(), true);
+  }
+  load((idx + d + tracks.length) % tracks.length, true);
+}
+function setShuffle(on){
+  shuffle = on; queue = []; hist = [];
+  $("shf").classList.toggle("on", on);
+  $("shufAll").classList.toggle("on", on);
+}
+let heroIdx = -2;
+function heroSync(){
+  const h = $("hero");
+  $("shufAll").style.display = tracks.length ? "" : "none";
+  if(!tracks.length){ h.style.display = "none"; return }
+  h.style.display = "";
+  const i = idx < 0 ? 0 : idx, t = tracks[i];
+  if(heroIdx !== i){
+    heroIdx = i;
+    h.innerHTML = `<div class="art" style="background:${bgOf(t)}"></div><div><div class="lb"></div><div class="t"></div><div class="n"></div></div>`;
+    h.querySelector(".t").textContent = t.title;
+    h.querySelector(".n").textContent = t.note;
+  }
+  const on = idx >= 0;
+  h.classList.toggle("on", on);
+  h.classList.toggle("paused", on && au.paused);
+  h.querySelector(".lb").textContent = !on ? "NEW" : (au.paused ? "PAUSED" : "NOW PLAYING");
+}
+$("hero").onclick = () => idx < 0 ? load(0, true) : toggle();
+function mark(){
+  heroSync();
+  document.querySelectorAll(".card").forEach(c => {
+    const on = +c.dataset.i === idx;
+    c.classList.toggle("on", on);
+    c.classList.toggle("paused", on && au.paused);
+  });
+  $("ppi").innerHTML = au.paused ? PLAY : PAUSE;
+  $("pp").setAttribute("aria-label", au.paused ? "再生" : "一時停止");
+}
+
+$("pp").onclick = toggle;
+$("prev").onclick = () => au.currentTime > 3 ? (au.currentTime = 0) : step(-1);
+$("next").onclick = () => step(1);
+$("rep").onclick = () => { repeat = !repeat; $("rep").classList.toggle("on", repeat) };
+$("shf").onclick = () => setShuffle(!shuffle);
+$("shufAll").onclick = () => { if(!tracks.length) return; setShuffle(true); load(Math.floor(Math.random() * tracks.length), true) };
+au.addEventListener("play", mark); au.addEventListener("pause", mark);
+au.addEventListener("ended", () => repeat ? (au.currentTime = 0, au.play()) : step(1));
+au.addEventListener("loadedmetadata", () => $("td").textContent = fmt(au.duration));
+au.addEventListener("timeupdate", () => {
+  if(!au.duration) return;
+  const v = au.currentTime / au.duration * 1000;
+  $("sk").value = v; $("sk").style.setProperty("--p", v/10 + "%");
+  $("tc").textContent = fmt(au.currentTime);
+});
+au.addEventListener("error", () => { if(idx >= 0) $("cur").textContent = "再生できません: " + tracks[idx].title });
+$("sk").addEventListener("input", e => { if(au.duration) au.currentTime = e.target.value/1000 * au.duration });
+
+if("mediaSession" in navigator){
+  const m = navigator.mediaSession;
+  m.setActionHandler("play", toggle); m.setActionHandler("pause", toggle);
+  m.setActionHandler("previoustrack", () => step(-1)); m.setActionHandler("nexttrack", () => step(1));
+}
+init();
+</script>
+</body>
+</html>
