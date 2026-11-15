@@ -67,6 +67,10 @@ h1{font-family:"Sacramento","Zen Maru Gothic",cursive;font-size:clamp(56px,17vw,
 @media(prefers-reduced-motion:reduce){.swash path{animation:none;stroke-dashoffset:0}}
 .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .acts .shufAll{margin:0}
+header{text-align:center}
+.swash{margin:0 auto}
+header h1{padding:0 .15em .08em}
+.acts{justify-content:flex-start;text-align:left}
 .grid.compact{grid-template-columns:repeat(4,1fr);gap:16px 10px}
 @media(min-width:620px){.grid.compact{grid-template-columns:repeat(6,1fr)}}
 @media(min-width:860px){.grid.compact{grid-template-columns:repeat(8,1fr)}}
@@ -123,9 +127,9 @@ h1{background:linear-gradient(100deg,#fff 20%,#ffb4a2 70%,#c4b5ff);-webkit-backg
 const CONFIG = {
   siteTitle: "collab songs",
   tagline: "",
-  // { file:"xxx.mp3", title:"曲名", note:"メモ", cover:"画像.png" } の形。file以外は省略可
+  // { file:"xxx.mp3", title:"曲名", note:"メモ", cover:"画像.jpg" } の形。file以外は省略可
   tracks: [
-    { file: "猫の爪に刺されながら.mp3", cover: "猫の爪に刺されながら.png", note: "2026/11/14" },
+    { file: "猫の爪に刺されながら.mp3", cover: "猫の爪に刺されながら.jpg", note: "2026/11/14" },
     { file: "ハロウィン2026.mp3", note: "2026/10/20" },
     { file: "深夜のコンビニ.mp3", note: "2026/10/17" },
     { file: "朝のコンビニ.mp3", note: "2026/10/17" }
