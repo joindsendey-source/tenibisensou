@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14131f">
-<title>Songs</title>
+<title>collab songs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#14131f; --ink:#f3eefb; --sub:#9d97b3; --line:#2a2840; --panel:#1d1b2e; --acc:#ffb4a2;
@@ -15,7 +15,7 @@
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:var(--ink);font-family:var(--font)}
-body{padding:calc(env(safe-area-inset-top,0px) + 28px) 18px calc(env(safe-area-inset-bottom,0px) + 150px);max-width:880px;margin:0 auto}
+body{padding:calc(env(safe-area-inset-top,0px) + 28px) 18px calc(env(safe-area-inset-bottom,0px) + 190px);max-width:880px;margin:0 auto}
 header{margin-bottom:26px}
 h1{font-size:clamp(34px,9vw,56px);font-weight:700;letter-spacing:.01em;line-height:1.1}
 header p{color:var(--sub);margin-top:8px;font-size:14px}
@@ -57,6 +57,26 @@ input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:var(
 input[type=range]::-moz-range-progress{height:4px;border-radius:4px;background:var(--acc)}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ink);margin-top:-5px}
 input[type=range]::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:var(--ink)}
+.vol{display:flex;align-items:center;gap:8px;margin-top:2px}
+.vol button{background:none;border:0;color:var(--sub);width:28px;height:28px;padding:0;display:grid;place-items:center;cursor:pointer;flex:none}
+.vol svg{width:20px;height:20px;fill:currentColor}
+h1{font-family:"Sacramento","Zen Maru Gothic",cursive;font-size:clamp(56px,17vw,92px);font-weight:400;letter-spacing:0;line-height:1.2;padding:0 .15em .08em 0;display:inline-block}
+.swash{display:block;width:min(260px,60%);height:auto;overflow:visible}
+.swash path{fill:none;stroke:url(#sg);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s .2s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.swash path{animation:none;stroke-dashoffset:0}}
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.acts .shufAll{margin:0}
+.grid.compact{grid-template-columns:repeat(4,1fr);gap:16px 10px}
+@media(min-width:620px){.grid.compact{grid-template-columns:repeat(6,1fr)}}
+@media(min-width:860px){.grid.compact{grid-template-columns:repeat(8,1fr)}}
+.compact .t{font-size:11px;margin-top:6px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.compact .n{display:none}
+.compact .art{box-shadow:0 4px 12px rgba(0,0,0,.4)}
+#hero.compact{padding:10px 14px;gap:14px;border-radius:18px;margin-top:10px}
+#hero.compact .art{width:56px}
+#hero.compact .t{font-size:15px}
+#hero.compact .lb{font-size:10px;margin-bottom:3px}
 @media(prefers-reduced-motion:reduce){.card.on .art{animation:none}#bar{transition:none}}
 
 body::before{content:"";position:fixed;inset:-20% -20% auto -20%;height:60vh;background:radial-gradient(60% 60% at 30% 30%,rgba(255,180,162,.22),transparent 70%),radial-gradient(50% 50% at 80% 20%,rgba(140,120,255,.25),transparent 70%);pointer-events:none;z-index:-1}
@@ -73,10 +93,11 @@ h1{background:linear-gradient(100deg,#fff 20%,#ffb4a2 70%,#c4b5ff);-webkit-backg
 </head>
 <body>
 <header>
-  <h1 id="title">Songs</h1>
+  <h1 id="title">collab songs</h1>
+  <svg class="swash" viewBox="0 0 300 20" aria-hidden="true"><defs><linearGradient id="sg"><stop offset="0" stop-color="#ffb4a2"/><stop offset="1" stop-color="#c4b5ff"/></linearGradient></defs><path pathLength="1" d="M2 14C50 3 110 22 170 9S270 4 298 12"/></svg>
   <p id="tagline"></p>
   <div class="count" id="count"></div>
-  <button class="shufAll" id="shufAll"><svg viewBox="0 0 24 24"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>シャッフル再生</button>
+  <div class="acts"><button class="shufAll" id="shufAll"><svg viewBox="0 0 24 24"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>シャッフル再生</button><button class="shufAll" id="viewBtn" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>一覧</button></div>
 </header>
 <button id="hero" aria-label="再生・一時停止"></button>
 <ul class="grid" id="list"></ul>
@@ -93,19 +114,21 @@ h1{background:linear-gradient(100deg,#fff 20%,#ffb4a2 70%,#c4b5ff);-webkit-backg
     </div>
   </div>
   <div class="seek"><span id="tc">0:00</span><input type="range" id="sk" min="0" max="1000" value="0" aria-label="再生位置"><span id="td">0:00</span></div>
+  <div class="vol" id="volrow"><button id="mute" aria-label="ミュート"><svg viewBox="0 0 24 24" id="mutei"></svg></button><input type="range" id="vol" min="0" max="100" value="100" aria-label="音量"></div>
 </div></div>
 <audio id="au" preload="metadata" playsinline></audio>
 
 <script>
 // ▼ 設定（曲名やメモを変えたいときだけここに書く。MP3を足すだけなら編集不要）
 const CONFIG = {
-  siteTitle: "Songs",
+  siteTitle: "collab songs",
   tagline: "",
   // { file:"xxx.mp3", title:"曲名", note:"メモ", cover:"画像.png" } の形。file以外は省略可
   tracks: [
     { file: "猫の爪に刺されながら.mp3", cover: "猫の爪に刺されながら.png", note: "2026/11/14" },
     { file: "ハロウィン2026.mp3", note: "2026/10/20" },
-    { file: "深夜のコンビニ.mp3", note: "2026/10/17" }
+    { file: "深夜のコンビニ.mp3", note: "2026/10/17" },
+    { file: "朝のコンビニ.mp3", note: "2026/10/17" }
   ]
 };
 const DIR = "曲"; // MP3・ジャケット画像を入れるフォルダ名
@@ -214,7 +237,7 @@ function setShuffle(on){
 let heroIdx = -2;
 function heroSync(){
   const h = $("hero");
-  $("shufAll").style.display = tracks.length ? "" : "none";
+  $("shufAll").style.display = $("viewBtn").style.display = tracks.length ? "" : "none";
   if(!tracks.length){ h.style.display = "none"; return }
   h.style.display = "";
   const i = idx < 0 ? 0 : idx, t = tracks[i];
@@ -263,6 +286,23 @@ if("mediaSession" in navigator){
   const m = navigator.mediaSession;
   m.setActionHandler("play", toggle); m.setActionHandler("pause", toggle);
   m.setActionHandler("previoustrack", () => step(-1)); m.setActionHandler("nexttrack", () => step(1));
+}
+$("viewBtn").onclick = () => { const on = list.classList.toggle("compact"); $("hero").classList.toggle("compact", on); $("viewBtn").classList.toggle("on", on); $("viewBtn").setAttribute("aria-pressed", on) };
+const VOLI = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/>';
+const MUTEI = '<path d="M16.5 12A4.5 4.5 0 0 0 14 8v2.18l2.45 2.45c.03-.2.05-.41.05-.63zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/>';
+let lastVol = 1;
+function setVol(v){
+  au.volume = v; $("vol").value = v * 100; $("vol").style.setProperty("--p", v * 100 + "%");
+  $("mutei").innerHTML = v === 0 ? MUTEI : VOLI;
+  try{ localStorage.setItem("vol", v) }catch(e){}
+}
+$("vol").addEventListener("input", e => { const v = e.target.value / 100; if(v > 0) lastVol = v; setVol(v) });
+$("mute").onclick = () => setVol(au.volume > 0 ? 0 : lastVol);
+au.volume = .5;
+if(au.volume !== .5){ $("volrow").style.display = "none" }   // iPhoneなど、ブラウザから音量を変えられない端末では隠す
+else{
+  let sv = 1; try{ const x = parseFloat(localStorage.getItem("vol")); if(x >= 0 && x <= 1) sv = x }catch(e){}
+  if(sv > 0) lastVol = sv; setVol(sv);
 }
 init();
 </script>
