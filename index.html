@@ -103,7 +103,8 @@ const CONFIG = {
   tagline: "",
   // { file:"xxx.mp3", title:"曲名", note:"メモ", cover:"画像.png" } の形。file以外は省略可
   tracks: [
-    { file: "猫の爪に刺されながら.mp3", cover: "猫の爪に刺されながら.png" }
+    { file: "猫の爪に刺されながら.mp3", cover: "猫の爪に刺されながら.png", note: "2026/11/14" },
+    { file: "ハロウィン2026.mp3", note: "2026/10/20" }
   ]
 };
 const DIR = "曲"; // MP3・ジャケット画像を入れるフォルダ名
@@ -153,6 +154,9 @@ async function init(){
     const img = m.cover || imgs[nfc(base)] || "";
     return { file:f, src:urlOf(f), title:m.title || titleFrom(f), note:m.note || "", cover: img ? urlOf(img) : "" };
   });
+  // 新しい順に並べる（日付は note か ファイル名の先頭の日付から取る。日付のない曲は最後）
+  const dk = t => { const m = (t.note + " " + t.file).match(/(\d{4})[\/.\-_]?(\d{1,2})[\/.\-_]?(\d{1,2})/); return m ? m[1] + m[2].padStart(2,"0") + m[3].padStart(2,"0") : "" };
+  tracks.sort((x, y) => dk(y).localeCompare(dk(x)) || x.file.localeCompare(y.file, "ja"));
   render();
 }
 
